@@ -32,6 +32,25 @@ namespace RpgCharacterSqlite.Repository
                 return entity;
             }
 
+            public TEntity GetById(object id)
+            {
+                return this.table.Find(id);
+            }
+
+            public void Delete(object id)
+            {
+                TEntity existing = this.table.Find(id);
+                this.table.Remove(existing);
+                this.context.SaveChanges();
+            }
+
+            public void DeleteAll()
+            {
+                List<TEntity> allEntities = this.table.ToList();
+                this.table.RemoveRange(allEntities);
+                this.context.SaveChanges();
+            }
+
             private IQueryable<TEntity> GetQueryableWithInclude(Expression<Func<TEntity, bool>>? filter = null,
             params Expression<Func<TEntity, object>>[] includeProperties)
             {
